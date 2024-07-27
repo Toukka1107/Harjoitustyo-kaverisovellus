@@ -102,7 +102,7 @@ def create_routes(app):
             if password != password_check:
                 return render_template("signup.html", error="Salasanat eivät täsmää")
             
-            if 0 < age < 16 :
+            if 0 <= age < 16 :
                 return render_template("signup.html", error="Sinun tulee olla vähintään 16 luodaksesi tunnus")
             
             if age < 0 or age > 120:

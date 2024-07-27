@@ -95,9 +95,12 @@ def create_routes(app):
 
             if len(username) < 4 or len(username) > 20:
                 return render_template("signup.html", error="Käyttäjätunnuksen pitää olla 4-20 merkkiä")
-            
+
             if len(password) < 8 or len(password) > 24:
-                return render_template("sign_p.html", error="Salasanan pitää olla 8-24 merkkiä")
+                return render_template("signup.html", error="Salasanan pitää olla 8-24 merkkiä")
+                
+            if password != password_check:
+                return render_template("signup.html", error="Salasanat eivät täsmää")
             
             if 0 < age < 16 :
                 return render_template("signup.html", error="Sinun tulee olla vähintään 16 luodaksesi tunnus")

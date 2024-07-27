@@ -1,0 +1,19 @@
+<body>
+  <h1>Kaverisovellus</h1>
+  <nav>
+    <ul>
+      <li><a href="/">Etusivu</a></li>
+      <li><a href="{{ url_for('profile', username=session.get('username')) }}">Profiili</a></li>
+      <li><a href="{{ url_for('edit_profile_route', username=session.get('username')) }}">Muokkaa profiilia</a></li>
+      <li><a href="/friends">Kaverit</a></li>
+      <li><a href="/logout">Kirjaudu ulos</a></li>
+    </ul>
+  </nav>
+
+  <h1>Käyttäjän {{ user.username }} profiili</h1>
+
+  <p><strong>Ikä:</strong> {{ profile.age }}</p>
+  <p><strong>Harrastukset:</strong> {{ profile.hobbies }}</p>
+  <p><strong>Minusta:</strong> {{ profile.about_me }}</p>
+
+</body>

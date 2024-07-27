@@ -1,0 +1,36 @@
+<body>
+    <h1>Kaverisovellus</h1>
+
+    <ul>
+        <li><a href="/">Etusivu</a></li>
+        <li><a href="{{ url_for('profile', username=session.get('username')) }}">Profiili</a></li>
+        <li><a href="{{ url_for('edit_profile_route', username=session.get('username')) }}">Muokkaa profiilia</a></li>
+        <li><a href="/friends">Kaverit</a></li>
+        <li><a href="/logout">Kirjaudu ulos</a></li>
+    </ul>
+
+    <form action="/send" method="POST">
+        <label>Otsikko:</label><br>
+        <input type="text" name="subject" required><br>
+        <label>Viesti:</label><br>
+        <textarea name="message" rows="3" cols="40" required></textarea>
+        <br>
+        <input type="submit" value="Lähetä">
+    </form>
+
+    {% if error %}
+        <p style="color: red;">{{ error }}</p>
+    {% endif %}
+
+    <h2>Kaikki viestit:</h2>
+
+    {% for message in messages %}
+    <div>
+        <a href="{{ url_for('profile', username=message.username) }}">{{ message.username }}</a><br>
+        <strong>Otsikko:</strong> {{ message.subject }}<br>
+        <strong>Viesti:</strong> {{ message.message }}
+    </div>
+    <hr>
+    {% endfor %}
+
+</body>

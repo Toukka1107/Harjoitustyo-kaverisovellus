@@ -1,0 +1,25 @@
+<body>
+  <h1>Rekisteröidy</h1>
+  <form method="POST" action="/signup">
+    <label>Käyttäjätunnus:</label><br>
+    <input type="text" name="username" required><br>
+
+    <label>Salasana:</label><br>
+    <input type="password" name="password" required><br>
+
+    <label>Ikä:</label><br>
+    <input type="number" name="age" required><br>
+
+    <label>Harrastukset:</label><br>
+    <textarea name="hobbies" rows="5" cols="40"></textarea><br>
+
+    <label>Minusta:</label><br>
+    <textarea name="about_me" rows="5" cols="40"></textarea><br>      
+
+    <input type="submit" value="Valmista">
+  </form>
+
+  {% if error %}
+    <p style="color: red;">{{ error }}</p>
+  {% endif %}
+</body>

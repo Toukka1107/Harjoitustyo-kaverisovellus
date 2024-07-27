@@ -1,4 +1,4 @@
-Kaverisovellus
+<h1>Kaverisovellus</h1>
 
 - Käyttjät voivat luoda tilin sekä kirjatua sisään tai ulos.
 - Käyttäjillä on oma profiili, jossa he voivat kertoa itsestä.
@@ -7,21 +7,21 @@ Kaverisovellus
 - Käyttäjät voivat lähetttää viestejä etusivulle.
 - Käyttäjät voivat nähdä muiden käyttäjien viestit.
 
-Sovelluksen käyttö Linuxilla:
+<h2>Sovelluksen käyttö Linuxilla:</h2>
 
-- Luo kansion friendapp juureen .env tiedosto seuraavanlaisesti:
+- Luo kansion friendapp juureen .env-tiedosto seuraavanlaisesti:<br>
 
-DATABASE_URL=postgresql://<käyttäjä>:<salasana>@<host>:<port>/<tietokanta>
-SECRET_KEY=<salainen_avain>
+DATABASE_URL=postgresql://käyttäjä:salasana@host:port/tietokanta<br>
+SECRET_KEY=<salainen_avain><br>
 
--Kirjoita terminaaliin seuraavat komennot:
+- Kirjoita terminaaliin seuraavat komennot:
 
-$cd friendapp
-$python3 -m venv venv
-$source venv/bin/activate
-$pip install flask
-$pip install flask-sqlalchemy
-$pip install psycopg2-binary
-$pip install python-dotenv
-$flask run
+$cd friendapp <br>
+$python3 -m venv venv <br>
+$source venv/bin/activate <br>
+$pip install flask <br>
+$pip install flask-sqlalchemy <br>
+$pip install psycopg2-binary <br>
+$pip install python-dotenv <br>
+$flask run <br>
 

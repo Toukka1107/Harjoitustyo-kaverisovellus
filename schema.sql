@@ -14,9 +14,14 @@ CREATE TABLE profiles (
 
 CREATE TABLE friends (
     id SERIAL PRIMARY KEY,
-    user_id TEXT UNIQUE,
-    friend_id TEXT UNIQUE,
-    friendship_status INTEGER
+    user_id INTEGER,
+    friend_id INTEGER
+);
+
+CREATE TABLE friend_requests (
+    id SERIAL PRIMARY KEY,
+    sender_id INTEGER,
+    receiver_id INTEGER
 );
 
 CREATE TABLE messages (
@@ -24,7 +29,7 @@ CREATE TABLE messages (
     user_id INTEGER,
     subject TEXT,
     message TEXT,
-    status INTEGER
+    status TEXT,
     time TIMESTAMP
 );
 
@@ -33,6 +38,6 @@ CREATE TABLE comments (
     user_id INTEGER,
     message_id INTEGER,
     comment TEXT,
-    status INTEGER
+    status TEXT,
     time TIMESTAMP
 );

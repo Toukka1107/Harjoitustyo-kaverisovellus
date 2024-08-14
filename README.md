@@ -6,6 +6,9 @@
 - Käyttäjät voivat katsoa muiden käyttäjien profiileita.
 - Käyttäjät voivat lähetttää viestejä etusivulle.
 - Käyttäjät voivat nähdä muiden käyttäjien viestit.
+- Käyttäjät voivat kommentoida toisten viestejä
+- Käyttäjät voivat lähettää kaveripyyntöjä
+- Käyttäjät voivat hyväksyä tai hylätä toisten lähettämiä kaveripyyntöjä
 
 <h2>Sovelluksen käyttö Linuxilla:</h2>
 

@@ -157,6 +157,7 @@ def create_routes(app):
     @app.route("/send_friend_request/<int:friend_id>", methods=["POST"])
     def send_friend_request(friend_id):
         user_id = session.get("user_id")
+        profile_username = get_username(friend_id)
         if not user_id:
             return redirect("/login")
 
@@ -164,7 +165,7 @@ def create_routes(app):
             return redirect("/profile/{{ session['username'] }}", error="Virheellinen kaveripyyntö")
 
         if send_request(user_id, friend_id):
-            return redirect("/friends")
+            return redirect(f"/profile/{profile_username}")
         else:
             return render_template("profile.html", error="Kaveripyyntöä ei voitu lähettää")
 

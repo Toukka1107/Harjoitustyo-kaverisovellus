@@ -174,11 +174,9 @@ def create_routes(app):
         if not user_id:
             return redirect("/login")
 
-        friend_row = get_user_by_username(request_username)
-        if not friend_row:
+        friend_id = get_user_by_username(request_username)
+        if not friend_id:
             return render_template("friends.html", error="Käyttäjää ei löydy")
-
-        friend_id = friend_row
 
         if add_friends(user_id, friend_id):
             return redirect("/friends")
@@ -186,13 +184,12 @@ def create_routes(app):
             return render_template("friends.html", error="Kaveriksi lisääminen epäonnistui")
 
     @app.route("/decline_friend_request/<request_username>", methods=["POST"])
-    def _friend_request(request_username):
+    def decline_friend_request(request_username):
         user_id = session.get("user_id")
         if not user_id:
             return redirect("/login")
         
         friend_id = get_user_by_username(request_username)
-
         if delete_friend_request(friend_id, user_id):
             return redirect("/friends")
         else:

@@ -1,6 +1,6 @@
 <h1>Kaverisovellus</h1>
 
-- Käyttjät voivat luoda tilin sekä kirjatua sisään tai ulos.
+- Käyttäjät voivat luoda tilin sekä kirjatua sisään tai ulos.
 - Käyttäjillä on oma profiili, jossa he voivat kertoa itsestä.
 - Käyttäjät voivat muokata profiiliaan.
 - Käyttäjät voivat katsoa muiden käyttäjien profiileita.

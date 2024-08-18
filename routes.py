@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, session, abort
-from users import login, signup, edit_profile, get_user_id, get_user_by_username, get_profile_by_user_id, get_username
+from users import login, signup, edit_profile, get_user_id, get_user_by_username, get_profile_by_user_id, get_username, check_username
 from messages import add_message, all_messages, add_comment
 from friends import send_request, add_friends, delete_friend_request, get_friend_request, get_all_friend_requests, get_all_friends, check_friend_request, check_friendship
 
@@ -20,8 +20,8 @@ def create_routes(app):
 
         if len(subject) > 20:
             return render_template("index.html", error="Otsikko ei saa olla yli 20 merkkiä")
-        if len(message_content) > 200:
-            return render_template("index.html", error="Viesti ei saa olla yli 200 merkkiä")
+        if len(message_content) > 800:
+            return render_template("index.html", error="Viesti ei saa olla yli 800 merkkiä")
 
         if user_id and subject and message_content:
             add_message(user_id, subject, message_content)
@@ -34,13 +34,14 @@ def create_routes(app):
         user_id = session.get("user_id")
         message_id = request.form.get("message_id")
 
-        if len(comment_content) > 200:
-            return render_template("index.html", error="Viesti ei saa olla yli 200 merkkiä")
+        if len(comment_content) > 800:
+            return render_template("index.html", error="Viesti ei saa olla yli 800 merkkiä")
 
         if user_id and comment_content:
             add_comment(user_id, message_id, comment_content)
 
         return redirect("/")
+    
     @app.route("/profile/<username>")
     def profile(username):
         user_id = session.get("user_id")
@@ -65,19 +66,6 @@ def create_routes(app):
 
     @app.route("/profile/<username>/edit", methods=["GET", "POST"])
     def edit_profile_route(username):
-        if request.method == "POST":
-            age = request.form.get("age")
-            hobbies = request.form.get("hobbies")
-            about_me = request.form.get("about_me")
-            user_id = session.get("user_id")
-
-            if user_id:
-                if edit_profile(user_id, age, hobbies, about_me):
-                    return redirect(f"/profile/{username}")
-                else:
-                    profile_result = get_profile_by_user_id(user_id)
-                    return render_template("profile_edit.html", error="Profiilin päivitys epäonnistui", profile=profile_result)
-
         user_id = session.get("user_id")
         if not user_id:
             abort(403, description="Käyttäjä ei ole kirjautunut sisään")
@@ -86,7 +74,33 @@ def create_routes(app):
         if not profile_result:
             return render_template("profile_edit.html", error="Profiilia ei löydy", profile=None)
 
+        if request.method == "POST":
+            age = request.form.get("age")
+            hobbies = request.form.get("hobbies")
+            about_me = request.form.get("about_me")
+
+            if not age or not hobbies or not about_me:
+                return render_template("profile_edit.html", error="Kaikki kentät ovat pakollisia", profile=profile_result)
+
+            if int(age) < 16:
+                return render_template("profile_edit.html", error="Sinun tulee olla vähintään 16 luodaksesi tunnus", profile=profile_result)
+                    
+            if int(age) < 0 or int(age) > 120:
+                return render_template("profile_edit.html", error="Syötä validi ikä", profile=profile_result)
+            
+            if len(hobbies) > 200:
+                return render_template("profile_edit.html", error="Maksimipituus ylitetty", profile=profile_result)
+            
+            if len(about_me) > 800:
+                return render_template("profile_edit.html", error="Maksimipituus ylitetty", profile=profile_result)
+            
+            if edit_profile(user_id, age, hobbies, about_me):
+                return redirect(f"/profile/{username}")
+            else:
+                return render_template("profile_edit.html", error="Profiilin päivitys epäonnistui", profile=profile_result)
+
         return render_template("profile_edit.html", profile=profile_result)
+
 
     @app.route("/login", methods=["GET", "POST"])
     def login_route():
@@ -119,6 +133,9 @@ def create_routes(app):
             hobbies = request.form.get("hobbies")
             about_me = request.form.get("about_me")
 
+            if check_username(username):
+                return render_template("signup.html", error="Käyttäjätunnus on jo käytössä")
+
             if len(username) < 4 or len(username) > 20:
                 return render_template("signup.html", error="Käyttäjätunnuksen pitää olla 4-20 merkkiä")
             
@@ -128,11 +145,17 @@ def create_routes(app):
             if password != password_check:
                 return render_template("signup.html", error="Salasanat eivät täsmää")
             
-            if age < 16:
+            if int(age) < 16:
                 return render_template("signup.html", error="Sinun tulee olla vähintään 16 luodaksesi tunnus")
             
-            if age < 0 or age > 120:
+            if int(age) < 0 or int(age) > 120:
                 return render_template("signup.html", error="Syötä validi ikä")
+            
+            if len(hobbies) > 200:
+                return render_template("signup.html", error="Maksimipituus ylitetty")
+            
+            if len(about_me) > 800:
+                return render_template("signup.html", error="Maksimipituus ylitetty")
 
             if signup(username, password, age, hobbies, about_me):
                 session["username"] = username
@@ -168,7 +191,7 @@ def create_routes(app):
             return redirect(f"/profile/{profile_username}")
         else:
             return render_template("profile.html", error="Kaveripyyntöä ei voitu lähettää")
-            
+
     @app.route("/accept_friend_request/<request_username>", methods=["POST"])
     def accept_friend_request(request_username):
         user_id = session.get("user_id")
@@ -181,6 +204,7 @@ def create_routes(app):
 
         add_friends(user_id, friend_id)
         return redirect("/friends")
+
 
     @app.route("/decline_friend_request/<request_username>", methods=["POST"])
     def decline_friend_request(request_username):

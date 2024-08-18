@@ -1,14 +1,19 @@
 <h1>Kaverisovellus</h1>
 
-- Käyttäjät voivat luoda tilin sekä kirjatua sisään tai ulos.
-- Käyttäjillä on oma profiili, jossa he voivat kertoa itsestä.
-- Käyttäjät voivat muokata profiiliaan.
+- Käyttäjät voivat luoda tilin sekä kirjautua sisään tai ulos.
+- Käyttäjillä on oma profiili, jossa he voivat kertoa itsestä. Profiilia voi myös muokata.
 - Käyttäjät voivat katsoa muiden käyttäjien profiileita.
-- Käyttäjät voivat lähetttää viestejä etusivulle.
-- Käyttäjät voivat nähdä muiden käyttäjien viestit.
-- Käyttäjät voivat kommentoida toisten viestejä
-- Käyttäjät voivat lähettää kaveripyyntöjä
-- Käyttäjät voivat hyväksyä tai hylätä toisten lähettämiä kaveripyyntöjä
+- Käyttäjät voivat lähetttää viestejä etusivulle ja muut käyttäjät voivat katsoa niitä.
+- Käyttäjät voivat kommentoida toisten viestejä.
+- Käyttäjät voivat lähettää kaveripyyntöjä.
+- Käyttäjät voivat hyväksyä tai hylätä toisten lähettämiä kaveripyyntöjä.
+
+<h2>Tulevat toiminnot:</h2>
+
+- Käyttäjät voivat muokata tai poistaa itse lähettämiään viestejä.
+- Käyttäjät voivat ladata profiilikuvan. Tällä hetkellä profiilkuvan tilalla on pinkki ruutu.
+- Jos kaksi käyttäjää ovat kavereita, profiilikuvan ylänurkassa näkyy pieni sydän.
+- Käyttäjät voivat poistaa toisia käyttäjiä kavereista.
 
 <h2>Sovelluksen käyttö Linuxilla:</h2>
 

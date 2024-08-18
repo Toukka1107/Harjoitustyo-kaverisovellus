@@ -1,10 +1,24 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kirjautuminen</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+
 <body>
-    <h1>Kaverisovellus</h1>
+    <header>
+        <img src="{{ url_for('static', filename='header.png') }}" alt="Header Image">
+    </header>
+
     <h2>Kirjaudu sisään tai luo profiili, jotta voit viestitellä</h2>
 
-    {% if error %}
-    <p style="color:red;">{{ error }}</p>
-    {% endif %}
+    <div class="error">
+        {% if error %}
+            {{ error }}
+        {% endif %}
+    </div>
 
     <form action="/login" method="POST">
         <label for="username">Tunnus:</label>
@@ -14,5 +28,12 @@
         <input type="submit" value="Kirjaudu">
     </form>
 
-    <li><a href="/signup">Luo käyttäjätunnus</a></li>
+    <ul>    
+        <li><a href="/signup">Luo käyttäjätunnus</a></li>
+    </ul>
 </body>
+
+<footer>
+    <p>Sovelluksen otsikon suunnittelussa on käytetty TextStudioa</p>
+</footer>
+</html>

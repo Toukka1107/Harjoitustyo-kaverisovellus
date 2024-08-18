@@ -1,25 +1,43 @@
-<body>
-    <h1>Kaverisovellus</h1>
-    <nav>
-        <ul>
-            <li><a href="/">Etusivu</a></li>
-            <li><a href="{{ url_for('profile', username=session.get('username')) }}">Profiili</a></li>
-            <li><a href="{{ url_for('edit_profile_route', username=session.get('username')) }}">Muokkaa profiilia</a></li>
-            <li><a href="/friends">Kaverit</a></li>
-            <li><a href="/logout">Kirjaudu ulos</a></li>
-        </ul>
-    </nav>
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kaverit</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
 
-    <h2>Kaveripyynnöt</h2>
+<body>
+    <header>
+        <img src="{{ url_for('static', filename='header.png') }}" alt="Header Image">
+    </header>
+    <ul>
+        <li><a href="/">Etusivu</a></li>
+        <li><a href="{{ url_for('profile', username=session.get('username')) }}">Profiili</a></li>
+        <li><a href="{{ url_for('edit_profile_route', username=session.get('username')) }}">Muokkaa profiilia</a></li>
+        <li><a href="/friends">Kaverit</a></li>
+        <li><a href="/logout">Kirjaudu ulos</a></li>
+    </ul>
+
+    <h3>Kaveripyynnöt</h3>
     {% if requests %}
         {% for request in requests %}
-            {{ request.username }} lähetti kaveripyynnön
-            <form action="/accept_friend_request/{{ request.username }}" method="POST">
-                <button type="submit">Hyväksy</button>
-            </form>
-            <form action="/decline_friend_request/{{ request.username }}" method="POST">
-                <button type="submit">Hylkää</button>
-            </form>
+            <div class="friend-request">
+                <div class="user-info">
+                    <img src="{{ url_for('static', filename=request.profile_image) }}" alt="kuva" class="profile-image">
+                    <a href="{{ url_for('profile', username=request.username) }}">{{ request.username }}</a>
+                </div>
+
+                <div class="request-buttons">
+                    <form action="/accept_friend_request/{{ request.username }}" method="POST">
+                        <button type="submit">Hyväksy</button>
+                    </form>
+                    <form action="/decline_friend_request/{{ request.username }}" method="POST">
+                        <button type="submit">Hylkää</button>
+                    </form>
+                </div>
+            </div>
+
         {% endfor %}
     {% else %}
         <p>Ei uusia kaveripyyntöjä</p>
@@ -27,11 +45,22 @@
 
     <h3>Kaverit</h3>
     {% if friends %}
-      {% for friend in friends %}
-        <a href="{{ url_for('profile', username=friend.username) }}">{{ friend.username }}</a>
-      {% endfor %}
+        <div class="friends-container">
+            {% for friend in friends %}
+                <div class="friends">
+                    <div class="user-info">
+                        <img src="{{ url_for('static', filename=friend.profile_image) }}" alt="kuva" class="profile-image">
+                        <a href="{{ url_for('profile', username=friend.username) }}">{{ friend.username }}</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
     {% else %}
         <p>Ei vielä kavereita</p>
     {% endif %}
 </body>
+
+<footer>
+    <p>Sovelluksen otsikon suunnittelussa on käytetty TextStudioa</p>
+</footer>
 </html>

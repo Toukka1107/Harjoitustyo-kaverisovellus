@@ -1,28 +1,50 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rekisteröidy</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+
 <body>
+  <header>
+      <img src="{{ url_for('static', filename='header.png') }}" alt="Header Image">
+  </header>
   <h1>Rekisteröidy</h1>
-  <form method="POST" action="/signup">
-    <label>Käyttäjätunnus:</label><br>
-    <input type="text" name="username" required><br>
 
-    <label>Salasana:</label><br>
-    <input type="password" name="password" required><br>
+  <div class="error">
+    {% if error %}
+        {{ error }}
+    {% endif %}
+  </div>
 
-    <label>Syötä salasana uudestaan:</label><br>
-    <input type="password" name="password_check" required><br>
-    
-    <label>Ikä:</label><br>
-    <input type="number" name="age" required><br>
+  <form id="signup-form" method="POST" action="/signup">
+    <div id="error-messages"></div>
 
-    <label>Harrastukset:</label><br>
-    <textarea name="hobbies" rows="5" cols="40"></textarea><br>
+    <label>Käyttäjätunnus (4-20 merkkiä)</label><br>
+    <input type="text" name="username" id="username" required><br>
 
-    <label>Minusta:</label><br>
-    <textarea name="about_me" rows="5" cols="40"></textarea><br>      
+    <label>Salasana (8-20 merkkiä)</label><br>
+    <input type="password" name="password" id="password" required><br>
+
+    <label>Syötä salasana uudestaan</label><br>
+    <input type="password" name="password_check" id="password_check" required><br>
+
+    <label>Ikä (16-120 vuotta)</label><br>
+    <input type="number" name="age" id="age" required><br>
+
+    <label>Harrastukset (max 100 merkkiä)</label><br>
+    <textarea name="hobbies" id="hobbies" rows="5" cols="40"></textarea><br>
+
+    <label>Minusta (max 200 merkkiä)</label><br>
+    <textarea name="about_me" id="about_me" rows="5" cols="40"></textarea><br>      
 
     <input type="submit" value="Valmista">
   </form>
-
-  {% if error %}
-    <p style="color: red;">{{ error }}</p>
-  {% endif %}
 </body>
+
+<footer>
+  <p>Sovelluksen otsikon suunnittelussa on käytetty TextStudioa</p>
+</footer>
+</html>

@@ -1,5 +1,15 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Etusivu</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
 <body>
-    <h1>Kaverisovellus</h1>
+    <header>
+        <img src="{{ url_for('static', filename='header.png') }}" alt="Header Image">
+    </header>
 
     <ul>
         <li><a href="/">Etusivu</a></li>
@@ -8,6 +18,12 @@
         <li><a href="/friends">Kaverit</a></li>
         <li><a href="/logout">Kirjaudu ulos</a></li>
     </ul>
+
+    <div class="error">
+        {% if error %}
+            {{ error }}
+        {% endif %}
+    </div>
 
     <form action="/send" method="POST">
         <label>Otsikko:</label><br>
@@ -18,33 +34,40 @@
         <input type="submit" value="Lähetä">
     </form>
 
-    {% if error %}
-        <p style="color: red;">{{ error }}</p>
-    {% endif %}
-
-    <h2>Kaikki viestit:</h2>
+    <h2>Kaikki viestit</h2>
 
     {% for message in messages %}
-    <div>
-        <a href="{{ url_for('profile', username=message.username) }}">{{ message.username }}</a><br>
-        <strong>Otsikko:</strong> {{ message.subject }}<br>
-        <strong>Viesti:</strong> {{ message.message }}<br>
+    <div class="message-container">
+        <div class="user-info">
+            <img src="{{ url_for('static', filename=message.profile_image) }}" alt="kuva" class="profile-image">
+            <a href="{{ url_for('profile', username=message.username) }}">{{ message.username }}</a>
+        </div>
+        
+        <div class="message-content">
+            <small>{{ message.time }}</small>
+            <strong>{{ message.subject }}</strong>
+            <p>{{ message.message }}</p>
 
-        <h3>Kommentit:</h3>
-        {% for comment in message.comments %}
+            <h3>Kommentit:</h3>
+            {% for comment in message.comments %}
             <div>
-                <a href="{{ url_for('profile', username=comment.username) }}">{{ comment.username }}</a>: {{ comment.comment }}<br>
-                <small>{{ comment.time }}</small>
+                <a href="{{ url_for('profile', username=comment.username) }}">{{ comment.username }}</a><small>{{ comment.time }}</small><br>
+                {{ comment.comment }} 
             </div>
-        {% endfor %}
+            {% endfor %}
 
-        <form action="/comment" method="POST">
-            <input type="hidden" name="message_id" value="{{ message.id }}">
-            <textarea name="comment" rows="2" cols="40" required></textarea><br>
-            <input type="submit" value="Kommentoi">
-        </form>
+            <form action="/comment" method="POST">
+                <input type="hidden" name="message_id" value="{{ message.id }}">
+                <textarea name="comment" rows="2" required></textarea>
+                <input type="submit" value="Kommentoi">
+            </form>
+        </div>
     </div>
     <hr>
     {% endfor %}
-
 </body>
+
+<footer>
+    <p>Sovelluksen otsikon suunnittelussa on käytetty TextStudioa</p>
+</footer>
+</html>

@@ -67,10 +67,13 @@ def get_profile_by_user_id(user_id):
     return db.session.execute(sql, {"user_id": user_id}).fetchone()
 
 def get_user_by_username(username):
-    sql = text("""
-        SELECT id
-        FROM users
-        WHERE username = :username
-        """)
+    sql = text("SELECT id FROM users WHERE username = :username")
     result = db.session.execute(sql, {"username": username}).fetchone()
     return result[0] if result else None
+
+def check_username(username):
+    sql = text("SELECT username FROM users WHERE username = :username")
+    result = db.session.execute(sql, {"username": username}).fetchone()
+
+    return True if result else False
+    

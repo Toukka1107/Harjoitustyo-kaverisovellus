@@ -3,7 +3,7 @@ from datetime import datetime, timezone
 from sqlalchemy import text
 
 def add_message(user_id, subject, content):
-    current_time = datetime.now(timezone.utc)
+    current_time = datetime.now(timezone.utc).strftime("%H:%M %d/%m/%y")
     sql = text("INSERT INTO messages (user_id, subject, message, time) VALUES (:user_id, :subject, :message, :time)")
     db.session.execute(sql, {"user_id": user_id, "subject": subject, "message": content, "time": current_time})
     db.session.commit()
@@ -24,7 +24,7 @@ def all_messages():
     return conversations
 
 def add_comment(user_id, message_id, content):
-    current_time = datetime.now(timezone.utc)
+    current_time = datetime.now(timezone.utc).strftime("%H:%M %d/%m/%y")
     sql = text("INSERT INTO comments (user_id, message_id, comment, time) VALUES (:user_id, :message_id, :comment, :time)")
     db.session.execute(sql, {"user_id": user_id, "message_id": message_id, "comment": content, "time": current_time})
     db.session.commit()

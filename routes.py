@@ -1,15 +1,19 @@
 from flask import Flask, render_template, request, redirect, session, abort
 from users import login, signup, edit_profile, get_user_id, get_user_by_username, get_profile_by_user_id, get_username, check_username
 from messages import add_message, all_messages, add_comment
-from friends import send_request, add_friends, delete_friend_request, get_friend_request, get_all_friend_requests, get_all_friends, check_friend_request, check_friendship
+from friends import send_request, add_friends, delete_friend_request, get_friend_request, get_all_friend_requests, get_all_friends, check_friend_request, check_friendship, delete_friend
 
 def create_routes(app):
     @app.route("/")
     def index():
-        if not session.get("user_id"):
+        user_id = session.get("user_id")
+        if not user_id:
             return redirect("/login")
 
         messages = all_messages()
+        for message in messages:
+            message['friend'] = check_friendship(user_id, message['user_id'])
+
         return render_template("index.html", messages=messages)
 
     @app.route("/send", methods=["POST"])
@@ -17,11 +21,18 @@ def create_routes(app):
         subject = request.form.get("subject")
         message_content = request.form.get("message")
         user_id = session.get("user_id")
+        errors = []
 
         if len(subject) > 20:
-            return render_template("index.html", error="Otsikko ei saa olla yli 20 merkkiä")
+            errors.append("Otsikko ei saa olla yli 20 merkkiä")
         if len(message_content) > 800:
-            return render_template("index.html", error="Viesti ei saa olla yli 800 merkkiä")
+            errors.append("Viesti ei saa olla yli 800 merkkiä")
+
+        if errors:
+            messages = all_messages()
+            for message in messages:
+                message['friend'] = check_friendship(user_id, message['user_id'])
+            return render_template("index.html", errors=errors, messages=messages)
 
         if user_id and subject and message_content:
             add_message(user_id, subject, message_content)
@@ -33,9 +44,14 @@ def create_routes(app):
         comment_content = request.form.get("comment")
         user_id = session.get("user_id")
         message_id = request.form.get("message_id")
+        errors = []
 
         if len(comment_content) > 800:
-            return render_template("index.html", error="Viesti ei saa olla yli 800 merkkiä")
+            messages = all_messages()
+            for message in messages:
+                message['friend'] = check_friendship(user_id, message['user_id'])
+            errors.append("Kommentti ei saa olla yli 800 merkkiä")
+            return render_template("index.html", errors=errors, messages=messages)
 
         if user_id and comment_content:
             add_comment(user_id, message_id, comment_content)
@@ -78,29 +94,28 @@ def create_routes(app):
             age = request.form.get("age")
             hobbies = request.form.get("hobbies")
             about_me = request.form.get("about_me")
-
-            if not age or not hobbies or not about_me:
-                return render_template("profile_edit.html", error="Kaikki kentät ovat pakollisia", profile=profile_result)
+            avatar = request.form.get("avatar") + ".png"
+            errors = []
 
             if int(age) < 16:
-                return render_template("profile_edit.html", error="Sinun tulee olla vähintään 16 luodaksesi tunnus", profile=profile_result)
+                errors.append("Sinun tulee olla vähintään 16-vuotias")
                     
             if int(age) < 0 or int(age) > 120:
-                return render_template("profile_edit.html", error="Syötä validi ikä", profile=profile_result)
+                errors.append("Syötä validi ikä")
             
             if len(hobbies) > 200:
-                return render_template("profile_edit.html", error="Maksimipituus ylitetty", profile=profile_result)
+                errors.append("'Harrastukset' - maksimipituus ylitetty")
             
             if len(about_me) > 800:
-                return render_template("profile_edit.html", error="Maksimipituus ylitetty", profile=profile_result)
+                errors.append("'Minusta' - maksimipituus ylitetty")
             
-            if edit_profile(user_id, age, hobbies, about_me):
-                return redirect(f"/profile/{username}")
+            if errors:
+                return render_template("profile_edit.html", profile=profile_result, errors=errors)
             else:
-                return render_template("profile_edit.html", error="Profiilin päivitys epäonnistui", profile=profile_result)
+                edit_profile(user_id, age, hobbies, about_me, avatar)
+                return redirect(f"/profile/{username}")
 
         return render_template("profile_edit.html", profile=profile_result)
-
 
     @app.route("/login", methods=["GET", "POST"])
     def login_route():
@@ -132,37 +147,42 @@ def create_routes(app):
             age = request.form.get("age")
             hobbies = request.form.get("hobbies")
             about_me = request.form.get("about_me")
+            avatar = request.form.get("avatar") + ".png"
+            errors = []
 
             if check_username(username):
-                return render_template("signup.html", error="Käyttäjätunnus on jo käytössä")
+                errors.append("Käyttäjätunnus on jo käytössä")
 
             if len(username) < 4 or len(username) > 20:
-                return render_template("signup.html", error="Käyttäjätunnuksen pitää olla 4-20 merkkiä")
+                errors.append("Käyttäjätunnuksen pitää olla 4-20 merkkiä")
             
             if len(password) < 8 or len(password) > 24:
-                return render_template("signup.html", error="Salasanan pitää olla 8-24 merkkiä")
+                errors.append("Salasanan pitää olla 8-24 merkkiä")
             
             if password != password_check:
-                return render_template("signup.html", error="Salasanat eivät täsmää")
+                errors.append("Salasanat eivät täsmää")
             
             if int(age) < 16:
-                return render_template("signup.html", error="Sinun tulee olla vähintään 16 luodaksesi tunnus")
+                errors.append("Sinun tulee olla vähintään 16 luodaksesi tunnus")
             
             if int(age) < 0 or int(age) > 120:
-                return render_template("signup.html", error="Syötä validi ikä")
+                errors.append("Syötä validi ikä")
             
             if len(hobbies) > 200:
-                return render_template("signup.html", error="Maksimipituus ylitetty")
+                errors.append("'Harrastukset' - maksimipituus ylitetty")
             
             if len(about_me) > 800:
-                return render_template("signup.html", error="Maksimipituus ylitetty")
+                errors.append("'Minusta' - maksimipituus ylitetty")
+            
+            if errors:
+                return render_template("signup.html", errors=errors)
 
-            if signup(username, password, age, hobbies, about_me):
+            else: 
+                signup(username, password, age, hobbies, about_me, avatar)
                 session["username"] = username
                 session["user_id"] = get_user_id()
                 return redirect("/")
 
-            return render_template("signup.html", error="Rekisteröinti epäonnistui")
 
         return render_template("signup.html")
 
@@ -177,7 +197,7 @@ def create_routes(app):
 
         return render_template("friends.html", requests=requests, friends=friends)
         
-    @app.route("/send_friend_request/<int:friend_id>", methods=["POST"])
+    @app.route("/send_friend_request/<friend_id>", methods=["POST"])
     def send_friend_request(friend_id):
         user_id = session.get("user_id")
         profile_username = get_username(friend_id)
@@ -191,6 +211,21 @@ def create_routes(app):
             return redirect(f"/profile/{profile_username}")
         else:
             return render_template("profile.html", error="Kaveripyyntöä ei voitu lähettää")
+        
+    @app.route("/end_friendship/<friend_id>", methods=["POST"])
+    def end_friendship(friend_id):
+        user_id = session.get("user_id")
+        profile_username = get_username(friend_id)
+        if not user_id:
+            return redirect("/login")
+
+        if not friend_id:
+            return redirect("/profile/{{ session['username'] }}", error="Virheellinen kavereista poisto")
+
+        if delete_friend(user_id, friend_id):
+            return redirect(f"/profile/{profile_username}")
+        else:
+            return render_template("profile.html", error="Käyttäjää ei voitu poistaa kavereista")
 
     @app.route("/accept_friend_request/<request_username>", methods=["POST"])
     def accept_friend_request(request_username):

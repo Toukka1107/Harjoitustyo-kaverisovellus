@@ -24,7 +24,9 @@
         {% for request in requests %}
             <div class="friend-request">
                 <div class="user-info">
-                    <img src="{{ url_for('static', filename=request.profile_image) }}" alt="kuva" class="profile-image">
+                    <div class="small-profile-picture">
+                        <img src="{{ url_for('static', filename=request.avatar) }}" alt="Kuva" class="profile-image">
+                    </div>
                     <a href="{{ url_for('profile', username=request.username) }}">{{ request.username }}</a>
                 </div>
 
@@ -49,7 +51,10 @@
             {% for friend in friends %}
                 <div class="friends">
                     <div class="user-info">
-                        <img src="{{ url_for('static', filename=friend.profile_image) }}" alt="kuva" class="profile-image">
+                        <div class="small-profile-picture">
+                            <img src="{{ url_for('static', filename=friend.profile_image) }}" alt="Kuva" class="profile-image">
+                            <img src="{{ url_for('static', filename='small_heart.png') }}" alt="Sydän" class="small-heart-image">
+                        </div>
                         <a href="{{ url_for('profile', username=friend.username) }}">{{ friend.username }}</a>
                     </div>
                 </div>

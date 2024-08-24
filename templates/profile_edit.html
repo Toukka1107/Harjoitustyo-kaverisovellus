@@ -21,24 +21,31 @@
   </ul>
 
   <div class="error">
-    {% if error %}
-        {{ error }}
+    {% if errors %}
+      {% for error in errors %}
+        {{ error }}<br>
+      {% endfor %}
     {% endif %}
   </div>
 
     <h1>Muokkaa profiilia</h1>
     <form method="POST">
+      <h3>Avatar:</h3>
+      <select name="avatar">
+      <option value="rainbow"> sateenkaari
+      <option value="ice_cream"> jäätelö
+      </select>
 
-        <label for="age">Ikä:</label><br>
-        <input type="number" id="age" name="age" value="{{ profile.age }}" required>
+      <label for="age">Ikä:</label><br>
+      <input type="number" id="age" name="age" value="{{ profile.age }}" required>
 
-        <label for="hobbies">Harrastukset:</label><br>
-        <textarea id="hobbies" name="hobbies" rows="5" cols="40">{{ profile.hobbies if profile else '' }}</textarea>
+      <label for="hobbies">Harrastukset:</label><br>
+      <textarea id="hobbies" name="hobbies" rows="5" cols="40">{{ profile.hobbies if profile else '' }}</textarea>
 
-        <label for="about_me">Minusta:</label><br>
-        <textarea id="about_me" name="about_me" rows="5" cols="40">{{ profile.about_me if profile else '' }}</textarea>    
+      <label for="about_me">Minusta:</label><br>
+      <textarea id="about_me" name="about_me" rows="5" cols="40">{{ profile.about_me if profile else '' }}</textarea>    
 
-        <input type="submit" value="Tallenna muutokset">
+      <input type="submit" value="Tallenna muutokset">
     </form>
 </body>
 

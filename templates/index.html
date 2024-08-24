@@ -20,8 +20,10 @@
     </ul>
 
     <div class="error">
-        {% if error %}
-            {{ error }}
+        {% if errors %}
+            {% for error in errors %}
+                {{ error }}<br>
+            {% endfor %}
         {% endif %}
     </div>
 
@@ -39,10 +41,15 @@
     {% for message in messages %}
     <div class="message-container">
         <div class="user-info">
-            <img src="{{ url_for('static', filename=message.profile_image) }}" alt="kuva" class="profile-image">
+            {% if message.friend %}
+                <img src="{{ url_for('static', filename='small_heart.png') }}" alt="Sydän" class="small-heart-image">
+            {% endif %}
+            <div class="small-profile-picture">
+                <img src="{{ url_for('static', filename=message.avatar) }}" alt="Kuva" class="profile-image">
+            </div>
             <a href="{{ url_for('profile', username=message.username) }}">{{ message.username }}</a>
-        </div>
-        
+        </div>        
+                
         <div class="message-content">
             <small>{{ message.time }}</small>
             <strong>{{ message.subject }}</strong>

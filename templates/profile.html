@@ -24,7 +24,12 @@
 
   {% if session.user_id != user.id %}
     {% if friends %}
-        <p>Olette kavereita!</p>
+        <p>Olette kavereita!</p><br>
+        <div class="send_friend_request">
+          <form action="/end_friendship/{{ user.id }}" method="POST">
+            <button type="submit">Poista kavereista</button>
+          </form>
+        </div>
     {% elif friend_request %}
         <p>Kaveripyyntö odottaa hyväksymistä</p>
     {% else %}
@@ -38,7 +43,10 @@
 
   <div class="profile-container">
     <div class="profile-picture">
-      <img src="{{ url_for('static', filename=profile.profile_image) }}" alt="kuva" class="profile-image">
+      <img src="{{ url_for('static', filename=profile.avatar) }}" alt="kuva" class="profile-image">
+      {% if friends %}
+        <img src="{{ url_for('static', filename='big_heart.png') }}" alt="Sydän" class="big-heart-image">
+      {% endif %}
     </div>
     
     <div class="profile-info">

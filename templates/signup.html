@@ -14,8 +14,10 @@
   <h1>Rekisteröidy</h1>
 
   <div class="error">
-    {% if error %}
-        {{ error }}
+    {% if errors %}
+      {%  for error in errors  %}
+        {{ error }}<br>
+      {% endfor %}
     {% endif %}
   </div>
 
@@ -29,7 +31,13 @@
     <input type="password" name="password" id="password" required><br>
 
     <label>Syötä salasana uudestaan</label><br>
-    <input type="password" name="password_check" id="password_check" required><br>
+    <input type="password" name="password_check" id="password_check" required>
+
+    <h3>Valitse avatar</h3>
+    <select name="avatar">
+    <option value="rainbow"> sateenkaari
+    <option value="ice_cream"> jäätelö
+    </select>
 
     <label>Ikä (16-120 vuotta)</label><br>
     <input type="number" name="age" id="age" required><br>

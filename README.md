@@ -11,7 +11,7 @@
 <h2>Tulevat toiminnot:</h2>
 
 - Käyttäjät voivat muokata tai poistaa itse lähettämiään viestejä.
-- Käyttäjät voivat ladata profiilikuvan. Tällä hetkellä profiilkuvan tilalla on pinkki ruutu.
+- Käyttäjät voivat valita oman avatarin. Tällä hetkellä avatarin tilalla on pinkki ruutu.
 - Jos kaksi käyttäjää ovat kavereita, profiilikuvan ylänurkassa näkyy pieni sydän.
 - Käyttäjät voivat poistaa toisia käyttäjiä kavereista.
 
@@ -31,5 +31,8 @@ $pip install flask <br>
 $pip install flask-sqlalchemy <br>
 $pip install psycopg2-binary <br>
 $pip install python-dotenv <br>
+$psql <br>
+Kopioi schema.sql ja syötä se terminaaliin. Käytä komentoa \dt tarkistaaksesi, että kaikki taulut ovat tietokannassa. <br>
+Syötä \q poistuaksesi PostgreSQL-tulkista. <br>
 $flask run <br>
 

@@ -30,7 +30,7 @@ CREATE TABLE messages (
     user_id INTEGER REFERENCES users(id),
     subject TEXT,
     message TEXT,
-    status TEXT,
+    status INTEGER DEFAULT 1,
     time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -39,6 +39,6 @@ CREATE TABLE comments (
     user_id INTEGER REFERENCES users(id),
     message_id INTEGER REFERENCES messages(id),
     comment TEXT,
-    status TEXT,
+    status INTEGER DEFAULT 1,
     time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

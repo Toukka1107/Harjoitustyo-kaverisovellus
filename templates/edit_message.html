@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Muokkaa</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+
+<body>
+  <header>
+      <img src="{{ url_for('static', filename='header.png') }}" alt="Header Image">
+  </header>
+
+  <ul>
+    <li><a href="/">Etusivu</a></li>
+    <li><a href="{{ url_for('profile', username=session.get('username')) }}">Profiili</a></li>
+    <li><a href="{{ url_for('edit_profile_route', username=session.get('username')) }}">Muokkaa profiilia</a></li>
+    <li><a href="/friends">Kaverit</a></li>
+    <li><a href="/logout">Kirjaudu ulos</a></li>
+  </ul>
+
+  <h1>Muokkaa viestiä</h1>
+
+  <div class="error">
+    {% if errors %}
+      {% for error in errors %}
+        {{ error }}<br>
+      {% endfor %}
+    {% endif %}
+  </div>
+
+  <div class="wide-form">
+    <form action="{{ url_for('edit_message_route', message_id=message_id) }}" method="POST">
+      <label>Otsikko:</label><br>
+      <textarea name="subject" rows="3" cols="40" required></textarea>
+      <br>
+      <label>Viesti:</label><br>
+      <textarea name="edited_message" rows="3" cols="40" required></textarea>
+      <br>
+      <input type="submit" value="Lähetä">
+      <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+    </form>
+  </div>
+ <footer>
+  <p>Sovelluksen otsikon suunnittelussa on käytetty TextStudioa</p>
+</footer>
+</body>
+</html>

@@ -28,28 +28,34 @@
     {% endif %}
   </div>
 
-    <h1>Muokkaa profiilia</h1>
+  <h1>Muokkaa profiilia</h1>
+  <div class="wide-form">
     <form method="POST">
-      <h3>Avatar:</h3>
+      <h3>Valitse avatar</h3>
       <select name="avatar">
       <option value="rainbow"> sateenkaari
       <option value="ice_cream"> jäätelö
+      <option value="dino"> dino
+      <option value="hibiscus"> hibiscus
+      <option value="cd"> cd-levy
+      <option value="watermelon"> vesimeloni
       </select>
 
       <label for="age">Ikä:</label><br>
       <input type="number" id="age" name="age" value="{{ profile.age }}" required>
 
-      <label for="hobbies">Harrastukset:</label><br>
-      <textarea id="hobbies" name="hobbies" rows="5" cols="40">{{ profile.hobbies if profile else '' }}</textarea>
+      <label for="hobbies">Harrastukset (max 200 merkkiä)</label><br>
+      <textarea id="hobbies" name="hobbies" rows="2" cols="40">{{ profile.hobbies if profile else '' }}</textarea>
 
-      <label for="about_me">Minusta:</label><br>
-      <textarea id="about_me" name="about_me" rows="5" cols="40">{{ profile.about_me if profile else '' }}</textarea>    
+      <label for="about_me">Minusta (max 800 merkkiä)</label><br>
+      <textarea id="about_me" name="about_me" rows="8" cols="40">{{ profile.about_me if profile else '' }}</textarea>    
 
       <input type="submit" value="Tallenna muutokset">
+      <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
     </form>
+  </div>
+  <footer>
+    <p>Sovelluksen otsikon suunnittelussa on käytetty TextStudioa</p>
+  </footer>
 </body>
-
-<footer>
-  <p>Sovelluksen otsikon suunnittelussa on käytetty TextStudioa</p>
-</footer>
 </html>

@@ -21,38 +21,44 @@
     {% endif %}
   </div>
 
-  <form id="signup-form" method="POST" action="/signup">
-    <div id="error-messages"></div>
+  <div class="wide-form">
+    <form id="signup-form" method="POST" action="/signup">
 
-    <label>Käyttäjätunnus (4-20 merkkiä)</label><br>
-    <input type="text" name="username" id="username" required><br>
+      <label>Käyttäjätunnus (4-16 merkkiä)</label><br>
+      <input type="text" name="username" id="username" required><br>
 
-    <label>Salasana (8-20 merkkiä)</label><br>
-    <input type="password" name="password" id="password" required><br>
+      <label>Salasana (8-20 merkkiä)</label><br>
+      <input type="password" name="password" id="password" required><br>
 
-    <label>Syötä salasana uudestaan</label><br>
-    <input type="password" name="password_check" id="password_check" required>
+      <label>Syötä salasana uudestaan</label><br>
+      <input type="password" name="password_check" id="password_check" required>
 
-    <h3>Valitse avatar</h3>
-    <select name="avatar">
-    <option value="rainbow"> sateenkaari
-    <option value="ice_cream"> jäätelö
-    </select>
+      <h3 style="font-size: large; margin-bottom: -2px;">Näitä kohtia voit vaihtaa myöhemmin</h3>
 
-    <label>Ikä (16-120 vuotta)</label><br>
-    <input type="number" name="age" id="age" required><br>
+      <h3>Valitse avatar</h3>
+      <select name="avatar">
+      <option value="rainbow"> sateenkaari
+      <option value="ice_cream"> jäätelö
+      <option value="dino"> dino
+      <option value="hibiscus"> hibiscus
+      <option value="cd"> cd-levy
+      <option value="watermelon"> vesimeloni
+      </select>
 
-    <label>Harrastukset (max 100 merkkiä)</label><br>
-    <textarea name="hobbies" id="hobbies" rows="5" cols="40"></textarea><br>
+      <label>Ikä (16-120 vuotta)</label><br>
+      <input type="number" name="age" id="age" required><br>
 
-    <label>Minusta (max 200 merkkiä)</label><br>
-    <textarea name="about_me" id="about_me" rows="5" cols="40"></textarea><br>      
+      <label>Harrastukset (max 200 merkkiä)</label><br>
+      <textarea name="hobbies" id="hobbies" rows="2" cols="40"></textarea><br>
 
-    <input type="submit" value="Valmista">
-  </form>
+      <label>Minusta (max 800 merkkiä)</label><br>
+      <textarea name="about_me" id="about_me" rows="8" cols="40"></textarea><br>      
+
+      <input type="submit" value="Valmista">
+    </form>
+  </div>
+  <footer>
+    <p>Sovelluksen otsikon suunnittelussa on käytetty TextStudioa</p>
+  </footer>
 </body>
-
-<footer>
-  <p>Sovelluksen otsikon suunnittelussa on käytetty TextStudioa</p>
-</footer>
 </html>

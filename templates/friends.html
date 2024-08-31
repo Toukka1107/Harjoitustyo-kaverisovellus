@@ -32,9 +32,11 @@
 
                 <div class="request-buttons">
                     <form action="/accept_friend_request/{{ request.username }}" method="POST">
+                        <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
                         <button type="submit">Hyväksy</button>
                     </form>
                     <form action="/decline_friend_request/{{ request.username }}" method="POST">
+                        <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
                         <button type="submit">Hylkää</button>
                     </form>
                 </div>
@@ -50,9 +52,9 @@
         <div class="friends-container">
             {% for friend in friends %}
                 <div class="friends">
-                    <div class="user-info">
+                    <div class="user-info" style="align-items: center;">
                         <div class="small-profile-picture">
-                            <img src="{{ url_for('static', filename=friend.profile_image) }}" alt="Kuva" class="profile-image">
+                            <img src="{{ url_for('static', filename=friend.avatar) }}" alt="Kuva" class="profile-image">
                             <img src="{{ url_for('static', filename='small_heart.png') }}" alt="Sydän" class="small-heart-image">
                         </div>
                         <a href="{{ url_for('profile', username=friend.username) }}">{{ friend.username }}</a>
@@ -63,9 +65,8 @@
     {% else %}
         <p>Ei vielä kavereita</p>
     {% endif %}
+    <footer>
+        <p>Sovelluksen otsikon suunnittelussa on käytetty TextStudioa</p>
+    </footer>
 </body>
-
-<footer>
-    <p>Sovelluksen otsikon suunnittelussa on käytetty TextStudioa</p>
-</footer>
 </html>

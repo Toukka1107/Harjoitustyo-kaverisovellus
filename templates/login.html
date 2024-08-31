@@ -20,20 +20,21 @@
         {% endif %}
     </div>
 
-    <form action="/login" method="POST">
-        <label for="username">Tunnus:</label>
-        <input type="text" name="username" id="username" required><br>
-        <label for="password">Salasana:</label>
-        <input type="password" name="password" id="password" required><br>
-        <input type="submit" value="Kirjaudu">
-    </form>
+    <div class="wide-form">
+        <form action="/login" method="POST">
+            <label for="username">Tunnus:</label>
+            <input type="text" name="username" id="username" required><br>
+            <label for="password">Salasana:</label>
+            <input type="password" name="password" id="password" required><br>
+            <input type="submit" value="Kirjaudu">
+        </form>
+    </div>
 
     <ul>    
         <li><a href="/signup">Luo käyttäjätunnus</a></li>
     </ul>
+    <footer>
+        <p>Sovelluksen otsikon suunnittelussa on käytetty TextStudioa</p>
+    </footer>
 </body>
-
-<footer>
-    <p>Sovelluksen otsikon suunnittelussa on käytetty TextStudioa</p>
-</footer>
 </html>

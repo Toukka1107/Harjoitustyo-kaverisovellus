@@ -22,27 +22,31 @@
 
   <h1>Käyttäjän {{ username }} profiili</h1>
 
-  {% if session.user_id != user.id %}
+  {% if session.get("user_id") != user.id %}
     {% if friends %}
-        <p>Olette kavereita!</p><br>
+        <h3 style="color:white; font-size: larger;">Olette kavereita!</h3>
         <div class="send_friend_request">
           <form action="/end_friendship/{{ user.id }}" method="POST">
             <button type="submit">Poista kavereista</button>
+            <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
           </form>
         </div>
     {% elif friend_request %}
-        <p>Kaveripyyntö odottaa hyväksymistä</p>
+      <h3 style="color:white; font-size: larger;">Kaveripyyntö odottaa hyväksymistä</h3>
     {% else %}
-    <div class="send_friend_request">
-      <form action="/send_friend_request/{{ user.id }}" method="POST">
-        <button type="submit">Lähetä kaveripyyntö</button>
-      </form>
+    <div class="wide-form">
+      <div class="send_friend_request">
+        <form action="/send_friend_request/{{ user.id }}" method="POST">
+          <button type="submit">Lähetä kaveripyyntö</button>
+          <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+        </form>
+      </div>
     </div>
     {% endif %}
   {% endif %}
 
   <div class="profile-container">
-    <div class="profile-picture">
+    <div class="big-profile-picture">
       <img src="{{ url_for('static', filename=profile.avatar) }}" alt="kuva" class="profile-image">
       {% if friends %}
         <img src="{{ url_for('static', filename='big_heart.png') }}" alt="Sydän" class="big-heart-image">
@@ -50,14 +54,13 @@
     </div>
     
     <div class="profile-info">
-      <p><strong>Ikä:</strong> {{ profile.age }}</p>
-      <p><strong>Harrastukset:</strong> {{ profile.hobbies }}</p>
-      <p><strong>Minusta:</strong> {{ profile.about_me }}</p>
+      <p style="font-size: large;"><strong>Ikä:</strong> {{ profile.age }}</p>
+      <p style="font-size: large;"><strong>Harrastukset:</strong> {{ profile.hobbies }}</p>
+      <p style="font-size: large;"><strong>Minusta:</strong> {{ profile.about_me }}</p>
     </div>
   </div>
+  <footer>
+    <p>Sovelluksen otsikon suunnittelussa on käytetty TextStudioa</p>
+  </footer>
 </body>
-
-<footer>
-  <p>Sovelluksen otsikon suunnittelussa on käytetty TextStudioa</p>
-</footer>
 </html>

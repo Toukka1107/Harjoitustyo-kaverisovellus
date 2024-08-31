@@ -4,13 +4,15 @@
 
 - Käyttäjät voivat luoda tilin sekä kirjautua sisään tai ulos.
 - Käyttäjillä on oma profiili, jossa he voivat kertoa itsestä. Profiilia voi myös muokata.
-- Käyttäjillä on kaksi vaihtoehtoa avatariksi, joista he voivat valita.
+- Käyttäjät voivat myös valita oman avatarin.
 - Käyttäjät voivat katsoa muiden käyttäjien profiileita.
 
 <h3>Viestitoiminnot:</h3>
 
 - Käyttäjät voivat lähetttää viestejä etusivulle ja muut käyttäjät voivat katsoa niitä.
 - Käyttäjät voivat kommentoida toisten viestejä.
+- Käyttäjät voivat muokata viestejä ja kommentteja.
+- Käyttäjät voivat poistaa viestejä ja kommentteja.
 
 <h3>Kaveritoiminnot:</h3>
 
@@ -18,12 +20,6 @@
 - Käyttäjät voivat hyväksyä tai hylätä toisten lähettämiä kaveripyyntöjä.
 - Käyttäjät voivat poistaa toisen käyttäjän kavereista.
 - Jos kaksi käyttäjää ovat kavereita, profiilikuvan ylänurkassa näkyy pieni sydän.
-
-<h3>Tulevat toiminnot:</h3>
-
-- Käyttäjät voivat muokata tai poistaa itse lähettämiään viestejä.
-- Käyttäjille tulee enemmän avatareja ja he voivat erikseen valita taustakuvan avatarille.
-- Sivuille tulee admin-käyttäjä, joka voi poistaa kenen tahansa käyttäjän viestin.
 
 <h2>Sovelluksen käyttö Linuxilla:</h2>
 

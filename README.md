@@ -22,6 +22,7 @@
 - Jos kaksi käyttäjää ovat kavereita, profiilikuvan ylänurkassa näkyy pieni sydän.
 
 <h2>Sovelluksen käyttö Linuxilla:</h2>
+Ohjeessa kaikki sovellukseen liittyvät tiedostot on tallennettu friendapp-nimiseen tiedostoon.
 
 - Luo kansion friendapp juureen .env-tiedosto seuraavanlaisesti:<br>
 
